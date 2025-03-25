@@ -1,0 +1,97 @@
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.form-control {
+    border: none !important;
+    border-bottom: 1px solid black !important;
+    border-radius: 0;
+    font-weight: 300;
+    font-size: 15px;
+    padding: 10px;
+    box-shadow: none !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #fff!important;
+}
+
+.form-control:focus {
+    border-bottom: 2px solid black !important;
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-black {
+    background-color: #000;
+    color: #fff;
+    font-weight: 400;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-red {
+    background-color: #a80505;
+    color: #fff;
+    font-weight: 400;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-save {
+    background-color: #0097bd;
+    color: #000;
+    font-weight: 400;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-black:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.btn-white {
+    background-color: #fff;
+    color: #000;
+    font-weight: 400;
+    padding: 10px 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-white:hover {
+    background-color: #f1f1f1;
+    color: #000;
+}
+
+h2 {
+    font-weight: 400;
+}
+
+#form_side_panel {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    top: 0;
+    right: -65%;
+    background-color: #292424;
+    color: #fff;
+    padding: 80px 20px;
+    transition: right 0.82s ease-in-out;
+    z-index: 20000;
+}
+
+#form_side_panel.active {
+    right: 0;
+}
