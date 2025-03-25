@@ -1,8 +1,18 @@
 @extends('admin.layout')
 
 @section('content')
+
+
 <div class="content-wrapper">
     <div class="content-header">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
         <div class="container-fluid">
             <div class="row mb-1">
                 <div class="col-md-12 text-center">
@@ -10,61 +20,162 @@
                         <div class="card-body">
                               <!-- 🔍 Advanced Search Form -->
                               <!-- 🔍 Advanced Search Form -->
-                            <form method="GET" action="{{ route('admin.contacts.index') }}" class="p-3">
-                                <div class="row g-2">
+                              <div class="row">
+                                <div class="col-md-9">
+                                    <form method="GET" action="{{ route('admin.contacts.index') }}" class="p-3">
+                                        
+                                        <div class="row g-2">
+                                            <!-- Search Type Dropdown -->
+                                            <div class="col-md-3">
+                                                <select id="searchType" class="form-select search-input">
+                                                    <option value="" selected disabled>Choose Search Type</option>
+                                                    <option value="name">Search by Name</option>
+                                                    <option value="email">Search by Email</option>
+                                                    <option value="mobile">Search by Mobile</option>
+                                                    <option value="date_range">Search by Date Range</option>
+                                                </select>
+                                            </div>
+        
+                                            <!-- Name Input -->
+                                            <div class="col-md-3">
+                                                <input type="text" name="name" id="nameInput" class="form-control search-input" placeholder="Enter Name" value="{{ request('name') }}" disabled>
+                                            </div>
+        
+                                            <!-- Email Input -->
+                                            <div class="col-md-3">
+                                                <input type="email" name="email" id="emailInput" class="form-control search-input" placeholder="Enter Email" value="{{ request('email') }}" disabled>
+                                            </div>
+        
+                                            <!-- Mobile Input -->
+                                            <div class="col-md-3">
+                                                <input type="text" name="mobile" id="mobileInput" class="form-control search-input" placeholder="Enter Mobile" value="{{ request('mobile') }}" disabled>
+                                            </div>
+        
+                                            <!-- Start Date -->
+                                            <div class="col-md-3">
+                                                {{-- <input type="text" name="start_date" id="startDateInput" class="form-control search-input datepicker" placeholder="Start Date" value="{{ request('start_date') }}" disabled autocomplete="off"> --}}
 
-                                    <!-- Search Type Dropdown -->
-                                    <div class="col-md-3">
-                                        <select id="searchType" class="form-select search-input">
-                                            <option value="" selected disabled>Choose Search Type</option>
-                                            <option value="name">Search by Name</option>
-                                            <option value="email">Search by Email</option>
-                                            <option value="mobile">Search by Mobile</option>
-                                            <option value="date_range">Search by Date Range</option>
-                                        </select>
-                                    </div>
+                                                <input type="text" id="created_at" name="created_at"
+                                                    class="form-control" placeholder="Start Date" disabled
+                                                    created-at autocomplete="off" value="{{ request('start_date') }}">
+                                            </div>
+        
+                                            <!-- End Date -->
+                                            <div class="col-md-3">
+                                                {{-- <input type="text" name="end_date" id="endDateInput" class="form-control search-input datepicker" placeholder="End Date" value="{{ request('end_date') }}" disabled autocomplete="off"> --}}
 
-                                    <!-- Name Input -->
-                                    <div class="col-md-3">
-                                        <input type="text" name="name" id="nameInput" class="form-control search-input" placeholder="Enter Name" value="{{ request('name') }}" disabled>
-                                    </div>
+                                                <input type="text" id="created_below" name="created_below"
+                                                    class="form-control" placeholder="end Date" disabled
+                                                    created-below autocomplete="off" value="{{ request('end_date') }}">
+                                            </div>
+        
+                                            <!-- Search Button -->
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn search-btn w-100">
+                                                    <i class="fas fa-search"></i> Search
+                                                </button>
+                                            </div>
+        
+                                            <!-- Reset Button -->
+                                            <div class="col-md-3">
+                                                <a href="{{ route('admin.contacts.index') }}" id="resetBtn" class="btn btn-secondary reset-btn w-100" style="display: none;">
+                                                    <i class="fas fa-times"></i> Reset
+                                                </a>
+                                            </div>
+                                        </div>
 
-                                    <!-- Email Input -->
-                                    <div class="col-md-3">
-                                        <input type="email" name="email" id="emailInput" class="form-control search-input" placeholder="Enter Email" value="{{ request('email') }}" disabled>
-                                    </div>
-
-                                    <!-- Mobile Input -->
-                                    <div class="col-md-3">
-                                        <input type="text" name="mobile" id="mobileInput" class="form-control search-input" placeholder="Enter Mobile" value="{{ request('mobile') }}" disabled>
-                                    </div>
-
-                                    <!-- Start Date -->
-                                    <div class="col-md-3">
-                                        <input type="text" name="start_date" id="startDateInput" class="form-control search-input datepicker" placeholder="Start Date" value="{{ request('start_date') }}" disabled autocomplete="off">
-                                    </div>
-
-                                    <!-- End Date -->
-                                    <div class="col-md-3">
-                                        <input type="text" name="end_date" id="endDateInput" class="form-control search-input datepicker" placeholder="End Date" value="{{ request('end_date') }}" disabled autocomplete="off">
-                                    </div>
-
-                                    <!-- Search Button -->
-                                    <div class="col-md-3">
-                                        <button type="submit" class="btn search-btn w-100">
-                                            <i class="fas fa-search"></i> Search
-                                        </button>
-                                    </div>
-
-                                    <!-- Reset Button -->
-                                    <div class="col-md-3">
-                                        <a href="{{ route('admin.contacts.index') }}" id="resetBtn" class="btn btn-secondary reset-btn w-100" style="display: none;">
-                                            <i class="fas fa-times"></i> Reset
-                                        </a>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
 
+                                <div class="col-md-3" style="
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            ">
+                                        <button type="button" class="btn-black" id="addGameBtn" onclick="openPanel()">
+                                            <i class="fas fa-plus" id="toggleIcon"></i>
+                                            <span class="game-html">Add Contact</span>
+                                        </button>
+                                </div>
+                              </div>
+
+
+                              <div id="form_side_panel" >
+                                <div class="card" style="padding:20px;">
+                                    <div id="alert-container"></div>
+                                    <h4 style="text-align: center; color:red!important" class="mt-3 mb-4">Add Contact detail</h4>
+                                    <form action="{{ route('admin.contacts.store') }}" method="POST" enctype="multipart/form-data" id="contactForm">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="form-group mb-3 col-md-3">
+                                                <input type="text" name="name" class="form-control" placeholder="Name" required>
+                                                @error('name')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                
+                                            <div class="form-group mb-3 col-md-3">
+                                                <input type="email" name="email" class="form-control" placeholder="Email" required>
+                                                    @error('email')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                            </div>
+                
+                                            <div class="form-group mb-3 col-md-3">
+                                                <input type="text" name="mobile" class="form-control" placeholder="Mobile" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                @error('mobile')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            
+
+                                            <div class="form-group mb-3 col-md-3">
+                                                <input type="text" name="landmark" class="form-control" placeholder="Landmark">
+                                            </div>
+                
+                                            <div class="form-group mb-3 col-md-3">
+                                                <input type="text" name="city" class="form-control" placeholder="City">
+                                            </div>
+
+                                            <div class="form-group mb-3 col-md-3">
+                                                <input type="text" name="state" class="form-control" placeholder="State">
+                                            </div>
+
+                                            <div class="form-group mb-3 col-md-3">
+                                                <input type="text" name="country" class="form-control" placeholder="Country">
+                                            </div>
+
+
+                
+                                            <div class="form-group mb-3 col-md-12">
+                                                <textarea name="description" class="form-control" placeholder="Description"></textarea>
+                                            </div>
+                
+                                            <div class="col-md-9">
+                                                {{-- <button type="submit" class="btn-black"><i class="fas fa-save"></i> Save Contact</button>
+                                                <a href="{{ route('admin.contacts.create') }}" class="btn-white"><i class="fas fa-arrow-left"></i> Back</a> --}}
+
+                                                {{-- <button type="submit" class="btn-save">
+                                                    <i class="fas fa-save"></i> 
+                                                    Save Contact
+                                                </button>
+                                                <button type="button" class="btn-red" onclick="closePanel()">
+                                                    <i class="fa fa-times"></i>
+                                                    Close
+                                                </button> --}}
+
+                                                <button type="submit" id="saveContactBtn" class="btn-save">
+                                                    <i class="fas fa-save"></i> Save Contact
+                                                </button>
+                                                <button type="button" class="btn-red" onclick="closePanel()">
+                                                    <i class="fa fa-times"></i> Close
+                                                </button>
+                                            </div>
+                
+                                        </div>
+                                     </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,6 +199,7 @@
                                     <th><i class="fas fa-envelope"></i> Mobile</th>
                                     <th><i class="fas fa-comment"></i> Address</th>
                                     <th><i class="fas fa-comment"></i> Created</th>
+                                    <th><i class="fas fa-edit"></i> Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,6 +212,8 @@
                                     <td>{{ $contact->mobile }}</td>
                                     <td>{{ $contact->address }}</td>
                                     <td>{{ $contact->created_at }}</td>
+                                    <td ><a href="#"><span style="color: black; padding: 2px;"><i class="fas fa-pencil-alt"></i> <!-- Preferred -->
+                                    </span></a></td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -192,7 +306,6 @@
 
 <script>
     $(document).ready(function() {
-        // Enable jQuery Datepicker
         $(".datepicker").datepicker({
             dateFormat: "yy-mm-dd"
         });
@@ -230,8 +343,8 @@
         document.getElementById('nameInput').disabled = true;
         document.getElementById('emailInput').disabled = true;
         document.getElementById('mobileInput').disabled = true;
-        document.getElementById('startDateInput').disabled = true;
-        document.getElementById('endDateInput').disabled = true;
+        document.getElementById('created_at').disabled = true;
+        document.getElementById('created_below').disabled = true;
 
         // Enable only the selected input
         if (selectedValue === 'name') {
@@ -241,8 +354,8 @@
         } else if (selectedValue === 'mobile') {
             document.getElementById('mobileInput').disabled = false;
         } else if (selectedValue === 'date_range') {
-            document.getElementById('startDateInput').disabled = false;
-            document.getElementById('endDateInput').disabled = false;
+            document.getElementById('created_at').disabled = false;
+            document.getElementById('created_below').disabled = false;
         }
     });
 
@@ -254,4 +367,63 @@
         }
     });
 </script>
+
+
+<script>
+    $(document).ready(function() {
+        $("#contactForm").on("submit", function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            let formData = new FormData(this);
+            let formAction = $(this).attr("action");
+
+            // Clear previous error messages
+            $(".text-danger").remove();
+
+            $.ajax({
+                url: formAction,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function() {
+                    $("#saveContactBtn").prop("disabled", true).text("Saving...");
+                },
+                success: function(response) {
+                    $("#saveContactBtn").prop("disabled", false).html('<i class="fas fa-save"></i> Save Contact');
+
+                    if (response.success) {
+                        // Reset form
+                        $("#contactForm")[0].reset();
+
+                        // Close the form panel
+                        closePanel();
+
+                        // Refresh the page (or update the contact list dynamically)
+                        location.reload();
+                    }
+                },
+                error: function(xhr) {
+                    $("#saveContactBtn").prop("disabled", false).html('<i class="fas fa-save"></i> Save Contact');
+
+                    let errors = xhr.responseJSON.errors;
+
+                    if (errors) {
+                        $.each(errors, function(field, messages) {
+                            let inputField = $("input[name='" + field + "'], textarea[name='" + field + "']");
+                            let errorMessage = '<span class="text-danger">' + messages[0] + '</span>';
+
+                            // Remove existing error messages and append new one
+                            inputField.next(".text-danger").remove();
+                            inputField.after(errorMessage);
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+    
 @endsection
+

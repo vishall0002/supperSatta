@@ -11,6 +11,18 @@ $("[release-datepicker]").datepicker({
     changeYear: true
 });
 
+$("[created-at]").datepicker({
+    dateFormat: "yy-mm-dd",
+    changeMonth: true,
+    changeYear: true
+});
+
+$("[created-below]").datepicker({
+    dateFormat: "yy-mm-dd",
+    changeMonth: true,
+    changeYear: true
+});
+
 
 
 function openPanel() {
