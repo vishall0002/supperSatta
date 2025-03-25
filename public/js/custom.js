@@ -1,4 +1,3 @@
-
 flatpickr("[flat-timpicker]", {
     enableTime: true,
     noCalendar: true,
@@ -16,6 +15,7 @@ $("[release-datepicker]").datepicker({
 
 function openPanel() {
     document.getElementById('form_side_panel').classList.add('active');
+    console.log("hello super sattta");
 }
 
 function closePanel() {
