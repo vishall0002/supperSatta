@@ -21,6 +21,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{asset('admincss/main.css')}}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @yield('customCss')
 
     <style>
@@ -101,7 +102,7 @@
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" ng-app="app">
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60" />
@@ -219,6 +220,16 @@
             </div>
         </aside>
 
+        <script>
+            var app = angular.module('app', []);
+         
+            app.config(function($interpolateProvider) {
+                $interpolateProvider.startSymbol('[[');
+                $interpolateProvider.endSymbol(']]');
+            });
+
+         </script>
+
         @yield('content')
 
         <footer class="main-footer">
@@ -267,8 +278,12 @@
     <script src="dist/js/demo.js"></script>
 
     <script src="dist/js/pages/dashboard.js"></script>
+  
     <script src="{{asset('js/custom.js')}}"></script>
+   
     @yield('customJs')
+
+    
 </body>
 
 </html>

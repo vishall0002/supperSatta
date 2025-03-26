@@ -39,7 +39,8 @@ Route::prefix('admin')->middleware(AdminAuth::class)->group(function () {
     Route::get('/games/create', [GameController::class, 'create'])->name('admin.games.create'); // Show form
     Route::post('/games', [GameController::class, 'store'])->name('admin.games.store'); // Store new game
     Route::get('/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
-    Route::get('/admin/contacts/create', [ContactController::class, 'create'])->name('admin.contacts.create');
+    Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('admin.contacts.edit');
+    Route::get('/contacts/create', [ContactController::class, 'create'])->name('admin.contacts.create');
     Route::post('/admin/contacts/store', [ContactController::class, 'store'])->name('admin.contacts.store');     
     Route::get('/form', [AdminController::class, 'form'])->name('admin.form');
     Route::get('/table', [AdminController::class, 'table'])->name('admin.table');

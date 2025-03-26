@@ -4,7 +4,6 @@
     border: none;
 }
 
-
 .form-control {
     border: none !important;
     border-bottom: 1px solid black !important;
@@ -26,9 +25,10 @@
     box-shadow: none;
 }
 
-.btn:hover{
+.btn:hover {
     color: white!important;
 }
+
 .btn-black {
     background-color: #000;
     color: #fff;
@@ -101,21 +101,21 @@ h2 {
 }
 
 .table tbody td {
-    padding: 10px 15px!important; /* Increased padding for better spacing */
+    padding: 10px 15px!important;
     border-right: 1px solid #dee2e6!important;
-    text-align: left!important; /* Aligns text to the left */
-    vertical-align: middle!important; /* Centers content vertically */
-    font-size: 14px!important; /* Adjust font size for better readability */
-    color: #333!important; /* Darker text for contrast */
+    vertical-align: middle!important;
+    font-size: 14px!important;
+    color: #333!important;
+    text-align: center;
 }
 
- .table thead th{
-    padding: 10px 15px!important; /* Increased padding for better spacing */
+.table thead th {
+    padding: 10px 15px!important;
     border-right: 1px solid #dee2e6!important;
-    text-align: center!important; /* Aligns text to the left */
-    vertical-align: middle!important; /* Centers content vertically */
-    font-size: 14px!important; /* Adjust font size for better readability */
-    color: #ffffff!important; /* Darker text for contrast */
+    text-align: center!important;
+    vertical-align: middle!important;
+    font-size: 14px!important;
+    color: #ffffff!important;
     font-weight: 400px!important;
     letter-spacing: 1px!important;
 }
