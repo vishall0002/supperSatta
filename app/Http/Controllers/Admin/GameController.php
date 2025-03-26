@@ -17,8 +17,8 @@ class GameController extends Controller
             $query->where('name', 'like', '%' . $request->input('name') . '%');
         }
 
-        $query->orderBy('id', 'desc');
-        $games = $query->paginate(5)->appends($request->query()); // Keep search parameters in pagination
+        $query->orderBy('id', 'desc')->limit(1);
+        $games = $query->paginate(1)->appends($request->query()); // Keep search parameters in pagination
 
         return view('admin.games.index', compact('games'));
     }

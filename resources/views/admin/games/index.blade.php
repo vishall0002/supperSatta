@@ -29,16 +29,19 @@
                                             @endif
                                         </form>
                                     </div>
+                                    @if (count($games) === 1)
                                     <div class="col-md-4">
                                         <button type="button" class="btn-black" id="addGameBtn" onclick="openPanel()">
                                             <i class="fas fa-plus" id="toggleIcon"></i>
                                             <span class="game-html">Add Game</span>
                                         </button>
                                     </div>
+                                    @endif
+                                    
                                 </div>
 
 
-                                <div id="form_side_panel" >
+                                <div id="form_side_panel">
                                     <form action="{{ route('admin.games.store') }}" method="POST">
                                         @csrf
                                         <div class="row">
@@ -60,7 +63,7 @@
                                         </div>
 
                                         <button type="submit" class="btn-save">
-                                            <i class="fas fa-save"></i> 
+                                            <i class="fas fa-save"></i>
                                             Save Game
                                         </button>
                                         <button type="button" class="btn-red" onclick="closePanel()">
@@ -100,9 +103,13 @@
                                             <td>{{ $games->firstItem() + $index }}</td>
                                             <td>{{ $game->name }}</td>
                                             <td>{{ $game->time }}</td>
-                                            <td>{{ $game->release_date }}</td>
-                                            <td ><a href="#"><span style="color: black; padding: 2px;"><i class="fas fa-pencil-alt"></i> <!-- Preferred -->
-                                            </span></a></td>
+                                            <td>{{ indianDateFormat($game->release_date) }}</td>
+                                            <td>
+                                                <a href="#"><span style="color: black; padding: 2px;"><i
+                                                            class="fas fa-pencil-alt"></i> <!-- Preferred -->
+                                                    </span>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -114,9 +121,12 @@
                         </div>
 
                         <!-- Pagination -->
-                        <div class="d-flex justify-content-end mt-3">
-                            {{ $games->links('pagination::bootstrap-4') }}
-                        </div>
+                        @if (0)
+                            <div class="d-flex justify-content-end mt-3">
+                                {{ $games->links('pagination::bootstrap-4') }}
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
