@@ -3,7 +3,8 @@
 @section('content')
 
 
-<div class="content-wrapper">
+<div class="content-wrapper" ng-controller="Contact" >
+    
     <div class="content-header">
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -99,83 +100,48 @@
                                 </div>
                               </div>
 
-
-                              <div id="form_side_panel" >
+                              <!-- SIDEBAR TO ADD THE CONTACTS  -->
+                              <div id="form_side_panel" ng-controller="Contact">
                                 <div class="card" style="padding:20px;">
                                     <div id="alert-container"></div>
-                                    <h4 style="text-align: center; color:red!important" class="mt-3 mb-4">Add Contact detail</h4>
+                                    <h4 style="text-align: center; color:red!important" class="mt-3 mb-4">Add Contact Detail</h4>
                                     <form action="{{ route('admin.contacts.store') }}" method="POST" enctype="multipart/form-data" id="contactForm">
                                         @csrf
                                         <div class="row">
-                                            <div class="form-group mb-3 col-md-3">
-                                                <input type="text" name="name" class="form-control" placeholder="Name" required>
+                                            <div class="form-group mb-3 col-md-4">
+                                                <input type="text" name="name" class="form-control" placeholder="Name" required ng-model="contactData.name">
                                                 @error('name')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                
-                                            <div class="form-group mb-3 col-md-3">
-                                                <input type="email" name="email" class="form-control" placeholder="Email" required>
-                                                    @error('email')
+
+                                            <div class="form-group mb-3 col-md-4">
+                                                <input type="email" name="email" class="form-control" placeholder="Email" required ng-model="contactData.email">
+                                                @error('email')
                                                     <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                @enderror
                                             </div>
-                
-                                            <div class="form-group mb-3 col-md-3">
-                                                <input type="text" name="mobile" class="form-control" placeholder="Mobile" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+                                            <div class="form-group mb-3 col-md-4">
+                                                <input type="text" name="mobile" class="form-control" placeholder="Mobile" required ng-model="contactData.mobile" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                                 @error('mobile')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            
 
-                                            <div class="form-group mb-3 col-md-3">
-                                                <input type="text" name="landmark" class="form-control" placeholder="Landmark">
-                                            </div>
-                
-                                            <div class="form-group mb-3 col-md-3">
-                                                <input type="text" name="city" class="form-control" placeholder="City">
-                                            </div>
-
-                                            <div class="form-group mb-3 col-md-3">
-                                                <input type="text" name="state" class="form-control" placeholder="State">
-                                            </div>
-
-                                            <div class="form-group mb-3 col-md-3">
-                                                <input type="text" name="country" class="form-control" placeholder="Country">
-                                            </div>
-
-
-                
-                                            <div class="form-group mb-3 col-md-12">
-                                                <textarea name="description" class="form-control" placeholder="Description"></textarea>
-                                            </div>
-                
-                                            <div class="col-md-9">
-                                                {{-- <button type="submit" class="btn-black"><i class="fas fa-save"></i> Save Contact</button>
-                                                <a href="{{ route('admin.contacts.create') }}" class="btn-white"><i class="fas fa-arrow-left"></i> Back</a> --}}
-
-                                                {{-- <button type="submit" class="btn-save">
-                                                    <i class="fas fa-save"></i> 
-                                                    Save Contact
-                                                </button>
-                                                <button type="button" class="btn-red" onclick="closePanel()">
-                                                    <i class="fa fa-times"></i>
-                                                    Close
-                                                </button> --}}
-
+                                            <div class="col-md-12">
                                                 <button type="submit" id="saveContactBtn" class="btn-save">
                                                     <i class="fas fa-save"></i> Save Contact
                                                 </button>
-                                                <button type="button" class="btn-red" onclick="closePanel()">
+                                                <button type="button" class="btn-red" ng-click="closePanel()">
                                                     <i class="fa fa-times"></i> Close
                                                 </button>
                                             </div>
-                
                                         </div>
-                                     </form>
+                                    </form>
                                 </div>
                             </div>
+                             <!-- SIDEBAR TO ADD THE CONTACTS  -->
                         </div>
                     </div>
                 </div>
@@ -195,25 +161,23 @@
                                 <tr>
                                     <th>#</th>
                                     <th><i class="fas fa-user"></i> Name</th>
-                                    <th><i class="fas fa-envelope"></i> Email</th>
                                     <th><i class="fas fa-envelope"></i> Mobile</th>
-                                    <th><i class="fas fa-comment"></i> Address</th>
-                                    <th><i class="fas fa-comment"></i> Created</th>
                                     <th><i class="fas fa-edit"></i> Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($contacts as $index => $contact)
+                               <?php //echo "<pre>"; print_r($contact); ?>
                                 {{-- @dd($contacts) --}}
                                 <tr>
-                                    <td>{{ $contacts->firstItem() + $index }}</td> <!-- Properly numbered rows -->
+                                    <td>{{ $contacts->firstItem() + $index }}</td>
                                     <td>{{ $contact->name }}</td>
-                                    <td>{{ $contact->email }}</td>
                                     <td>{{ $contact->mobile }}</td>
-                                    <td>{{ $contact->address }}</td>
-                                    <td>{{ $contact->created_at }}</td>
-                                    <td ><a href="#"><span style="color: black; padding: 2px;"><i class="fas fa-pencil-alt"></i> <!-- Preferred -->
-                                    </span></a></td>
+                                    <td ng-click="fetchContact({{ $contact->id }})" style="cursor: pointer;">
+                                        <span style="color: black; padding: 2px;">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </span>
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -303,6 +267,32 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+    var app = angular.module('app', []);
+    app.controller('Contact', function($scope, $http) {
+        $scope.messageAngular = "AngularJS 1.8 Loaded Successfully!";
+        console.log($scope.messageAngular);
+        $scope.fetchContact = function(contactId) {
+            console.log('Fetching Contact ID:', contactId);
+            $http.get('/admin/contacts/' + contactId + '/edit')
+                .then(function(response) {
+                    console.log('Success:', response.data);
+                    openPanel();
+                    $scope.contactData = response.data; // ✅ Auto-populates the form
+                }, function(error) {
+                    console.error('Error:', error);
+                });
+        };
+
+        $scope.closePanel = function () {
+            document.getElementById('form_side_panel').classList.remove('active');
+            $scope.contactData = null;
+        }
+    });
+</script>
+
+
 
 <script>
     $(document).ready(function() {
@@ -397,7 +387,7 @@
                         $("#contactForm")[0].reset();
 
                         // Close the form panel
-                        closePanel();
+                        $scope.closePanel();
 
                         // Refresh the page (or update the contact list dynamically)
                         location.reload();
